@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Penilaian Hafalan Al-Qur'an</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --hover-color: #45a049;
+            --border-color: #ddd;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+    color: blue;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.8rem;
+    /* Tambahan animasi */
+    padding: 1rem;
+    background: linear-gradient(45deg, #3498db, #9b59b6, #e74c3c, #f1c40f);
+    background-size: 200%;
+    border-radius: 10px;
+    color: white;
+    animation: background-animation 4s ease infinite;
+}
+
+/* Keyframes untuk animasi background */
+@keyframes background-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .score-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .score-display {
+            min-width: 60px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 4px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            background: #ddd;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .criteria {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 3px solid #e9ecef;
+        }
+
+        .attempt-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 6px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        .result h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .result ul {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .result li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .grade-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            .container {
+                box-shadow: none;
+            }
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        .history-table th {
+            background-color: #f8f9fa;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .secondary-button {
+            background-color: #6c757d;
+        }
+
+        .export-button {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Form Penilaian Hafalan Al-Qur'an</h2>
+        <form id="quranForm">
+            <div class="form-group">
+                <label for="name">Nama Santri:</label>
+                <input type="text" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="surah">Surah:</label>
+                <select id="surah" required>
+                    <option value="">Pilih Surah</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="ayatStart">Ayat ke:</label>
+                <input type="number" id="ayatStart" min="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ayatEnd">Sampai ayat:</label>
+                <input type="number" id="ayatEnd" min="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Tanggal:</label>
+                <input type="date" id="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Tajwid (Hukum Bacaan)</label>
+                <div class="score-container">
+                    <input type="range" id="tajwid" min="0" max="100" value="0">
+                    <span class="score-display" id="tajwidScore">0</span>
+                </div>
+                <div class="criteria">Ketepatan dalam menerapkan hukum tajwid</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Makhraj (Tempat Keluarnya Huruf)</label>
+                <div class="score-container">
+                    <input type="range" id="makhraj" min="0" max="100" value="0">
+                    <span class="score-display" id="makhrajScore">0</span>
+                </div>
+                <div class="criteria">Ketepatan dalam pengucapan huruf</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Kelancaran</label>
+                <div class="score-container">
+                    <input type="range" id="kelancaran" min="0" max="100" value="0">
+                    <span class="score-display" id="kelancaranScore">0</span>
+                </div>
+                <div class="criteria">Kelancaran dalam membaca tanpa terbata-bata</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Tahfidz (Hafalan)</label>
+                <div class="score-container">
+                    <input type="range" id="tahfidz" min="0" max="100" value="0">
+                    <span class="score-display" id="tahfidzScore">0</span>
+                </div>
+                <div class="criteria">Kemampuan menghafal dengan sempurna</div>
+            </div>
+
+            <div class="form-group">
+                <label for="attempt">Percobaan ke-:</label>
+                <input type="number" id="attempt" min="1" max="3" value="1" required>
+            </div>
+            
+            <div id="attemptWarning" class="attempt-warning">
+                Ini adalah percobaan terakhir. Harap perhatikan dengan seksama.
+            </div>
+            
+            <button type="submit">Simpan Penilaian</button>
+        </form>
+        
+        <div id="result" class="result"></div>
+
+        <div class="action-buttons no-print">
+            <button onclick="printResult()" class="secondary-button">Cetak Hasil</button>
+            <button onclick="exportToCSV()" class="export-button">Export ke CSV</button>
+        </div>
+
+        <div id="history" style="margin-top: 2rem;">
+            <h3>Riwayat Penilaian</h3>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nama</th>
+                        <th>Surah</th>
+                        <th>Nilai Rata-rata</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.js"></script>
+    <script>
+        // Surah list data
+        const surahList = [
+            "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah",
+"Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus",
+"Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr",
+"An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Ta-Ha",
+"Al-Anbiya'", "Al-Hajj", "Al-Mu'minun", "An-Nur", "Al-Furqan",
+"Ash-Shu'ara'", "An-Naml", "Al-Qasas", "Al-Ankabut", "Ar-Rum",
+"Luqman", "As-Sajdah", "Al-Ahzab", "Saba'", "Fatir",
+"Ya-Sin", "As-Saffat", "Sad", "Az-Zumar", "Ghafir",
+"Fussilat", "Ash-Shura", "Az-Zukhruf", "Ad-Dukhan", "Al-Jathiyah",
+"Al-Ahqaf", "Muhammad", "Al-Fath", "Al-Hujurat", "Qaf",
+"Adh-Dhariyat", "At-Tur", "An-Najm", "Al-Qamar", "Ar-Rahman",
+"Al-Waqi'ah", "Al-Hadid", "Al-Mujadilah", "Al-Hashr", "Al-Mumtahanah",
+"As-Saff", "Al-Jumu'ah", "Al-Munafiqun", "At-Taghabun", "At-Talaq",
+"At-Tahrim", "Al-Mulk", "Al-Qalam", "Al-Haqqah", "Al-Ma'arij",
+"Nuh", "Al-Jinn", "Al-Muzzammil", "Al-Muddaththir", "Al-Qiyamah",
+"Al-Insan", "Al-Mursalat", "An-Naba'", "An-Nazi'at", "Abasa",
+"At-Takwir", "Al-Infitar", "Al-Mutaffifin", "Al-Inshiqaq", "Al-Buruj",
+"At-Tariq", "Al-A'la", "Al-Ghashiyah", "Al-Fajr", "Al-Balad",
+"Ash-Shams", "Al-Lail", "Ad-Duha", "Ash-Sharh", "At-Tin",
+"Al-Alaq", "Al-Qadr", "Al-Bayyina", "Az-Zalzalah", "Al-Adiyat",
+"Al-Qari'ah", "At-Takathur", "Al-Asr", "Al-Humazah", "Al-Fil",
+"Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr",
+"Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"
+            // Add more surahs as needed
+        ];
+
+        // Populate surah dropdown
+        const surahSelect = document.getElementById('surah');
+        surahList.forEach((surah, index) => {
+            const option = document.createElement('option');
+            option.value = surah;
+            option.textContent = `${index + 1}. ${surah}`;
+            surahSelect.appendChild(option);
+        });
+
+        // Initialize local storage
+        const evaluations = JSON.parse(localStorage.getItem('quranEvaluations')) || [];
+
+        // Update score displays
+        document.querySelectorAll('input[type="range"]').forEach(input => {
+            input.addEventListener('input', function() {
+                document.getElementById(this.id + 'Score').textContent = this.value;
+            });
+        });
+
+        // Attempt warning
+        document.getElementById('attempt').addEventListener('change', function() {
+            const warning = document.getElementById('attemptWarning');
+            warning.style.display = this.value === '3' ? 'block' : 'none';
+        });
+
+        // Calculate grade
+        function calculateGrade(average) {
+            if (average >= 90) return 'Jayyid Jiddan (Jayyid Jiddan)';
+            if (average >= 80) return 'Jayyid (Jayyid)';
+            if (average >= 70) return 'Hasan (Hasan)';
+            if (average >= 60) return 'Perlu Perbaikan (Perlu Perbaikan)';
+            return 'Ditolak (Ditolak)';
+        }
+
+        // Form submission
+        document.getElementById('quranForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                surah: document.getElementById('surah').value,
+                ayatStart: document.getElementById('ayatStart').value,
+                ayatEnd: document.getElementById('ayatEnd').value,
+                date: document.getElementById('date').value,
+                tajwid: parseInt(document.getElementById('tajwid').value),
+                makhraj: parseInt(document.getElementById('makhraj').value),
+                kelancaran: parseInt(document.getElementById('kelancaran').value),
+                tahfidz: parseInt(document.getElementById('tahfidz').value),
+                attempt: document.getElementById('attempt').value
+            };
+
+            const average = (formData.tajwid + formData.makhraj + formData.kelancaran + formData.tahfidz) / 4;
+            const grade = calculateGrade(average);
+
+            // Save to local storage
+            evaluations.push({
+                ...formData,
+                average,
+                grade,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('quranEvaluations', JSON.stringify(evaluations));
+
+            // Display result
+            displayResult(formData, average, grade);
+            updateHistory();
+            
+            // Show success notification
+            Toastify({
+                text: "Penilaian berhasil disimpan!",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "var(--primary-color)"
+            }).showToast();
+        });
+
+        function displayResult(data, average, grade) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.style.backgroundColor = average >= 60 ? '#d4edda' : '#f8d7da';
+            resultDiv.style.color = average >= 60 ? '#155724' : '#721c24';
+            
+            resultDiv.innerHTML = `
+                <h3>Hasil Penilaian</h3>
+                <div class="result-content">
+                    <p><strong>Nama:</strong> ${data.name}</p>
+                    <p><strong>Surah:</strong> ${data.surah}</p>
+                    <p><strong>Ayat:</strong> ${data.ayatStart} - ${data.ayatEnd}</p>
+                    <p><strong>Tanggal:</strong> ${new Date(data.date).toLocaleDateString('id-ID')}</p>
+                    <p><strong>Percobaan ke-:</strong> ${data.attempt}</p>
+                    <p><strong>Nilai Rata-rata:</strong> ${average.toFixed(1)}</p>
+                    <p><strong>Grade:</strong> <span class="grade-badge" style="background-color: ${getGradeColor(grade)}">${grade}</span></p>
+                    <h4>Detail Nilai:</h4>
+                    <ul>
+                        <li><strong>Tajwid:</strong> ${data.tajwid}</li>
+                        <li><strong>Makhraj:</strong> ${data.makhraj}</li>
+                        <li><strong>Kelancaran:</strong> ${data.kelancaran}</li>
+                        <li><strong>Tahfidz:</strong> ${data.tahfidz}</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function getGradeColor(grade) {
+            const colors = {
+                'Jayyid Jiddan (Jayyid Jiddan)':'#28a745',
+                'Jayyid (Jayyid)':'#17a2b8',
+                'Hasan (Hasan)':'#ffc107',
+                'Perlu Perbaikan (Perlu Perbaikan)':'#fd7e14',
+                'Ditolak (Ditolak)':'#dc3545',
+            };
+            return colors[grade] || '#6c757d';
+        }
+
+        function updateHistory() {
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
+
+            // Sort evaluations by date, most recent first
+            const sortedEvaluations = [...evaluations].sort((a, b) => 
+                new Date(b.timestamp) - new Date(a.timestamp)
+            );
+
+            sortedEvaluations.forEach(eval => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${new Date(eval.date).toLocaleDateString('id-ID')}</td>
+                    <td>${eval.name}</td>
+                    <td>${eval.surah}</td>
+                    <td>${eval.average.toFixed(1)}</td>
+                    <td><span class="grade-badge" style="background-color: ${getGradeColor(eval.grade)}">${eval.grade}</span></td>
+                `;
+            });
+        }
+
+        function printResult() {
+            window.print();
+        }
+
+        function exportToCSV() {
+            const headers = ['Tanggal', 'Nama', 'Surah', 'Ayat Mulai', 'Ayat Akhir', 'Tajwid', 'Makhraj', 'Kelancaran', 'Tahfidz', 'Rata-rata', 'Grade'];
+            const csvRows = [headers];
+
+            evaluations.forEach(eval => {
+                const row = [
+                    eval.date,
+                    eval.name,
+                    eval.surah,
+                    eval.ayatStart,
+                    eval.ayatEnd,
+                    eval.tajwid,
+                    eval.makhraj,
+                    eval.kelancaran,
+                    eval.tahfidz,
+                    eval.average.toFixed(1),
+                    eval.grade
+                ];
+                csvRows.push(row);
+            });
+
+            const csvContent = csvRows.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'penilaian_hafalan_' + new Date().toISOString().slice(0,10) + '.csv');
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Form validation
+        function validateAyatRange() {
+            const start = parseInt(document.getElementById('ayatStart').value);
+            const end = parseInt(document.getElementById('ayatEnd').value);
+            
+            if (end < start) {
+                document.getElementById('ayatEnd').value = start;
+                Toastify({
+                    text: "Ayat akhir tidak boleh lebih kecil dari ayat awal",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#dc3545"
+                }).showToast();
+            }
+        }
+
+        document.getElementById('ayatStart').addEventListener('change', validateAyatRange);
+        document.getElementById('ayatEnd').addEventListener('change', validateAyatRange);
+
+        // Initialize history on page load
+        updateHistory();
+
+        // Save form data to localStorage when typing
+        const formInputs = document.querySelectorAll('input, select');
+        formInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                const formData = {};
+                formInputs.forEach(input => {
+                    formData[input.id] = input.value;
+                });
+                localStorage.setItem('formDraft', JSON.stringify(formData));
+            });
+        });
+
+        // Load saved form data on page load
+        const savedFormData = localStorage.getItem('formDraft');
+        if (savedFormData) {
+            const formData = JSON.parse(savedFormData);
+            Object.keys(formData).forEach(key => {
+                const input = document.getElementById(key);
+                if (input) {
+                    input.value = formData[key];
+                    if (input.type === 'range') {
+                        document.getElementById(key + 'Score').textContent = formData[key];
+                    }
+                }
+            });
+        }
+
+        // Auto-save feature with indicator
+        let saveTimeout;
+        function autoSave() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                const formData = {};
+                formInputs.forEach(input => {
+                    formData[input.id] = input.value;
+                });
+                localStorage.setItem('formDraft', JSON.stringify(formData));
+                
+                Toastify({
+                    text: "Draft tersimpan otomatis",
+                    duration: 2000,
+                    gravity: "bottom",
+                    position: "right",
+                    backgroundColor: "#6c757d"
+                }).showToast();
+            }, 1000);
+        }
+
+        formInputs.forEach(input => {
+            input.addEventListener('input', autoSave);
+        });
+    </script>
+</body>
+</html>
