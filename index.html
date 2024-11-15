@@ -45,7 +45,7 @@
     font-size: 1.8rem;
     /* Tambahan animasi */
     padding: 1rem;
-    background: linear-gradient(45deg, #3498db, #9b59b6, #e74c3c, #f1c40f);
+    background: linear-gradient(45deg, #27ae60, #2ecc71, #1abc9c, #16a085);
     background-size: 200%;
     border-radius: 10px;
     color: white;
@@ -261,6 +261,29 @@
         .export-button {
             background-color: #28a745;
         }
+.class-selection {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .class-selection select {
+            flex: 1;
+        }
+
+        /* Style untuk tabel riwayat yang diperbarui */
+        .history-table td {
+            vertical-align: middle;
+        }
+
+        .class-badge {
+            background-color: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: #495057;
+        }
     </style>
 </head>
 <body>
@@ -268,9 +291,26 @@
         <h2>Form Penilaian Hafalan Al-Qur'an</h2>
         <form id="quranForm">
             <div class="form-group">
-                <label for="name">Nama Santri:</label>
-                <input type="text" id="name" required>
+    <div class="form-group">
+                <label for="class">Kelas:</label>
+                <select id="class" required onchange="updateStudentList()">
+                    <option value="" disabled selected>Pilih Kelas</option>
+                    <option value="I lil Baniyn">I lil Baniyn</option>
+                    <option value="II lil Baniyn">II lil Baniyn</option>
+                    <option value="I A lil Banaat">I A lil Banaat</option>
+                    <option value="I B lil Banaat">I B lil Banaat</option>
+                    <option value="II lil Banaat">II lil Banaat</option>
+                  
+                </select>
             </div>
+
+            <div class="form-group">
+                <label for="name">Nama Santri:</label>
+                <select id="name" required disabled>
+                    <option value="" disabled selected>Pilih Nama Santri</option>
+                </select>
+            </div>
+
             
             <div class="form-group">
                 <label for="surah">Surah:</label>
@@ -294,46 +334,47 @@
                 <input type="date" id="date" required>
             </div>
             
-            <div class="form-group">
-                <label>Tajwid (Hukum Bacaan)</label>
-                <div class="score-container">
-                    <input type="range" id="tajwid" min="0" max="100" value="0">
-                    <span class="score-display" id="tajwidScore">0</span>
-                </div>
-                <div class="criteria">Ketepatan dalam menerapkan hukum tajwid</div>
-            </div>
             
             <div class="form-group">
-                <label>Makhraj (Tempat Keluarnya Huruf)</label>
-                <div class="score-container">
-                    <input type="range" id="makhraj" min="0" max="100" value="0">
-                    <span class="score-display" id="makhrajScore">0</span>
-                </div>
-                <div class="criteria">Ketepatan dalam pengucapan huruf</div>
-            </div>
-            
-            <div class="form-group">
-                <label>Kelancaran</label>
-                <div class="score-container">
-                    <input type="range" id="kelancaran" min="0" max="100" value="0">
-                    <span class="score-display" id="kelancaranScore">0</span>
-                </div>
-                <div class="criteria">Kelancaran dalam membaca tanpa terbata-bata</div>
-            </div>
-            
-            <div class="form-group">
-                <label>Tahfidz (Hafalan)</label>
-                <div class="score-container">
-                    <input type="range" id="tahfidz" min="0" max="100" value="0">
-                    <span class="score-display" id="tahfidzScore">0</span>
-                </div>
-                <div class="criteria">Kemampuan menghafal dengan sempurna</div>
-            </div>
+    <label>Tajwid (Hukum Bacaan)</label>
+    <div class="score-container">
+        <input type="range" id="tajwid" min="0" max="100" value="0" oninput="updateTajwidScore()">
+        <input type="number" id="tajwidManual" min="0" max="100" value="0" oninput="updateTajwidRange()">
+        <span class="score-display" id="tajwidScore">0</span>
+    </div>
+    <div class="criteria">Ketepatan dalam hukum tajwid</div>
+    
+<div class="form-group">
+    <label>Makhraj (Tempat Keluarnya Huruf)</label>
+    <div class="score-container">
+        <input type="range" id="makhraj" min="0" max="100" value="0" oninput="updateMakhrajScore()">
+        <input type="number" id="makhrajManual" min="0" max="100" value="0" oninput="updateMakhrajRange()">
+        <span class="score-display" id="makhrajScore">0</span>
+    </div>
+    <div class="criteria">Ketepatan dalam pengucapan huruf</div>
+    
+<div class="form-group">
+    <label>Kelancaran</label>
+    <div class="score-container">
+        <input type="range" id="kelancaran" min="0" max="100" value="0" oninput="updateKelancaranScore()">
+        <input type="number" id="kelancaranManual" min="0" max="100" value="0" oninput="updateKelancaranRange()">
+        <span class="score-display" id="kelancaranScore">0</span>
+    </div>
+    <div class="criteria">Kelancaran dalam membaca tanpa terbata-bata</div>
+    
+<div class="form-group">
+    <label>Tahfidz (Hafalan)</label>
+    <div class="score-container">
+        <input type="range" id="tahfidz" min="0" max="100" value="0" oninput="updateTahfidzScore()">
+        <input type="number" id="tahfidzManual" min="0" max="100" value="0" oninput="updateTahfidzRange()">
+        <span class="score-display" id="tahfidzScore">0</span>
+    </div>
+    <div class="criteria">Kemampuan menghafal dengan sempurna</div>
 
-            <div class="form-group">
-                <label for="attempt">Percobaan ke-:</label>
-                <input type="number" id="attempt" min="1" max="3" value="1" required>
-            </div>
+<div class="form-group">
+    <label for="attempt">Percobaan ke-:</label>
+    <input type="number" id="attempt" min="1" max="3" value="1" required>
+</div>
             
             <div id="attemptWarning" class="attempt-warning">
                 Ini adalah percobaan terakhir. Harap perhatikan dengan seksama.
@@ -368,6 +409,139 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.js"></script>
     <script>
+
+        // Data struktur untuk kelas dan murid
+        const classStudents = {
+            'I lil Baniyn': [
+    'Abdurrahman Al Ghozi Bin Alamsyah',
+    'Afif Al Zakiy Bin Sunardi',
+    'Ahmad Hafidz Bin Dedi Abdillah',
+    'Abdul Kholiq Al Fajri Bin Fajaruddin',
+    'Ahmad Taqiy Bin Akmaluddin',
+    'Akromul Mu\'minin Bin Mustofa Jailani',
+    'Diaz ibnu Hubbillah Bin Suharto',
+    'Farih Khoirunnas Bin Arman',
+    'Gibran Akasyah Bin Ustman Asih',
+    'M. Syauqi Abdurrahman Bin Sholihin',
+    'Muhammad Badi Bin Maher',
+    'Muhammad Dafa Muzafar Bin Musthofa',
+    'M Hamas Fakhruddin Bin Deswan H.',
+    'Muhammad Alif Bin Arifin',
+    'Muhammad Nabil Fathan Bin Bilal',
+    'Muhammad Rizqy Bin Dandi Kunda',
+    'M Shulthan Al baraday Bin',
+    'M Syaifurrahman Baraja Bin Imron B.',
+    'M Fahru Al Fatih Bin Fahru Hanan',
+    'M Fathun Nasyath Bin Nunung Riyanto',
+    'Sabilullah Al Haq Bin Dilar',
+    'Abdullah Al Faruq',
+    'Salsal Sami As Sabiq Bin Iqbal'
+],
+            'II lil Baniyn': [
+    'Abdullah Ridwan',
+    'Abdul Fathir Baraja',
+    'Abdul Ghaffar Asy Syahid',
+    'Ahmad Abdullah',
+    'Fahriz Al Fauz',
+    'Ibnu Kholil',
+    'Khalid Ar Rahiq',
+    'Muhammad Dzar Al Ghifari',
+    'Muhammad Fadhli Al Jabar',
+    'Muhammad Mukhlasin',
+    'Muhammad Mukhlisin',
+    'Muhammad Rafi Ramadhan',
+    'Tauhid Nur Huda',
+    'Tegar Saputra',
+    'Yazdad Zeyan Ramadhan',
+    'Zakaria Dzaki',
+    'Muhammad Khadafick',
+    'Ahmad Kholilullah'
+],
+            'I A lil Banaat':[
+    'Adelia Nur Alifah Binti M.Bashir',
+    'Aghnia Nazifah RJ. Binti Dwi Rinanto',
+    'Chaca Aulia Binti Waca Abdullah',
+    'Delisa Nur Salfa Binti Supardi',
+    'Hasna Sholihah Binti Ali Mahfud',
+    'Kholisa Shofa Qistiya Binti Auliyaa\'ur Rahman',
+    'Latifatun Nisa Binti Hidayat',
+    'Nadia Mutia Asydiqoh Binti Herman',
+    'Nafila Nur Jannah Binti Jumino',
+    'Nur Aisyah Binti Darulis',
+    'Qoriroh Mar\'atus Salamah Binti Tanzili',
+    'Qurrota A\'yun Binti Syamsudin',
+    'Syafa Tabitha Insani Binti Mustofa',
+    'Syahidah Kamilah Binti Agus Mashudi',
+    'Yasmin Taqiyya Hanun Binti Irsyad Hamidi',
+    'Syaqila'
+],
+            'I B lil Banaat':[
+    'Aisyah Nur Hanifah',
+    'Anisa Sabrina',
+    'Az-Zahra Maharani',
+    'Chery Azura',
+    'Khumairoh Azkia Az Zahra',
+    'Mazaya Ahda Sabila Al-Haq',
+    'Nurul Hidayah',
+    'Putri Wahidatus Sholihah',
+    'Qonita Nur Asyifa',
+    'Qurota\' A\'yuni Aisma Rifah',
+    'Rofiqoh Hilma Al Mardhiyah',
+    'Sabila Al Haura',
+    'Sabria Hisha Radhim',
+    'Shofi Raihan As Syahlan',
+    'Syiafira Girdien',
+    'Inayah'
+],
+            'II lil Banaat':[
+    'Aisyah Hana Fauziah',
+    'An Nisa Hilyatul Aulia',
+    'An Nisa Muhsonah',
+    'Aqila Aufa Syahidah',
+    'Aulia Nur Azizah',
+    'Asy Syifa Salsabila Fithri',
+    'Ataya Al Husna',
+    'Elsa Maulidah Hasanah',
+    'Fahma Al Fisah',
+    'Hafshah Shalihah',
+    'Khutbah Izzatul Jannah',
+    'Lily Azmi',
+    'Nazila Nur Rahmah',
+    'Nur Azizah Trimiranti',
+    'Nur Faizah Lathifatul Kamilah',
+    'Rafaifah Cinta Asy Syifa',
+    'Sahla Nur Istiqamah',
+    'Salma Zakia',
+    'Shafa Al Fadhilah',
+    'Sherin Saputri',
+    'Shafiah Asy Syahidah',
+    'Siska Maulidia',
+    'Syifa Fajria Al Aina Ramadhani',
+    'Zaskia Novita Sari'
+],
+            
+        };
+
+        // Fungsi untuk mengupdate daftar santri berdasarkan kelas
+        function updateStudentList() {
+            const classSelect = document.getElementById('class');
+            const nameSelect = document.getElementById('name');
+            const selectedClass = classSelect.value;
+
+            // Reset nama santri
+            nameSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Santri</option>';
+            nameSelect.disabled = !selectedClass;
+
+            if (selectedClass) {
+                const students = classStudents[selectedClass];
+                students.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student;
+                    option.textContent = student;
+                    nameSelect.appendChild(option);
+                });
+            }
+        }
         // Surah list data
         const surahList = [
             "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah",
@@ -395,6 +569,7 @@
 "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"
             // Add more surahs as needed
         ];
+        
 
         // Populate surah dropdown
         const surahSelect = document.getElementById('surah');
@@ -435,6 +610,7 @@
             e.preventDefault();
             
             const formData = {
+                class: document.getElementById('class').value,
                 name: document.getElementById('name').value,
                 surah: document.getElementById('surah').value,
                 ayatStart: document.getElementById('ayatStart').value,
@@ -450,7 +626,6 @@
             const average = (formData.tajwid + formData.makhraj + formData.kelancaran + formData.tahfidz) / 4;
             const grade = calculateGrade(average);
 
-            // Save to local storage
             evaluations.push({
                 ...formData,
                 average,
@@ -459,11 +634,9 @@
             });
             localStorage.setItem('quranEvaluations', JSON.stringify(evaluations));
 
-            // Display result
             displayResult(formData, average, grade);
             updateHistory();
             
-            // Show success notification
             Toastify({
                 text: "Penilaian berhasil disimpan!",
                 duration: 3000,
@@ -482,6 +655,7 @@
             resultDiv.innerHTML = `
                 <h3>Hasil Penilaian</h3>
                 <div class="result-content">
+                    <p><strong>Kelas:</strong> ${document.getElementById('class').value}</p>
                     <p><strong>Nama:</strong> ${data.name}</p>
                     <p><strong>Surah:</strong> ${data.surah}</p>
                     <p><strong>Ayat:</strong> ${data.ayatStart} - ${data.ayatEnd}</p>
@@ -511,11 +685,12 @@
             return colors[grade] || '#6c757d';
         }
 
-        function updateHistory() {
+
+            // Sort evaluations by date, most recent first
+            function updateHistory() {
             const tbody = document.getElementById('historyTableBody');
             tbody.innerHTML = '';
 
-            // Sort evaluations by date, most recent first
             const sortedEvaluations = [...evaluations].sort((a, b) => 
                 new Date(b.timestamp) - new Date(a.timestamp)
             );
@@ -524,7 +699,11 @@
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${new Date(eval.date).toLocaleDateString('id-ID')}</td>
-                    <td>${eval.name}</td>
+                    <td>
+                        ${eval.name}
+                        <br>
+                        <span class="class-badge">${eval.class}</span>
+                    </td>
                     <td>${eval.surah}</td>
                     <td>${eval.average.toFixed(1)}</td>
                     <td><span class="grade-badge" style="background-color: ${getGradeColor(eval.grade)}">${eval.grade}</span></td>
@@ -537,12 +716,13 @@
         }
 
         function exportToCSV() {
-            const headers = ['Tanggal', 'Nama', 'Surah', 'Ayat Mulai', 'Ayat Akhir', 'Tajwid', 'Makhraj', 'Kelancaran', 'Tahfidz', 'Rata-rata', 'Grade'];
+            const headers = ['Tanggal', 'Kelas', 'Nama', 'Surah', 'Ayat Mulai', 'Ayat Akhir', 'Tajwid', 'Makhraj', 'Kelancaran', 'Tahfidz', 'Rata-rata', 'Grade'];
             const csvRows = [headers];
 
             evaluations.forEach(eval => {
                 const row = [
                     eval.date,
+                    eval.class,
                     eval.name,
                     eval.surah,
                     eval.ayatStart,
@@ -644,6 +824,55 @@
         formInputs.forEach(input => {
             input.addEventListener('input', autoSave);
         });
+        
+function updateTajwidScore() {
+    const value = document.getElementById('tajwid').value;
+    document.getElementById('tajwidScore').textContent = value;
+    document.getElementById('tajwidManual').value = value;
+}
+
+function updateTajwidRange() {
+    const value = document.getElementById('tajwidManual').value;
+    document.getElementById('tajwidScore').textContent = value;
+    document.getElementById('tajwid').value = value;
+}
+
+function updateMakhrajScore() {
+    const value = document.getElementById('makhraj').value;
+    document.getElementById('makhrajScore').textContent = value;
+    document.getElementById('makhrajManual').value = value;
+}
+
+function updateMakhrajRange() {
+    const value = document.getElementById('makhrajManual').value;
+    document.getElementById('makhrajScore').textContent = value;
+    document.getElementById('makhraj').value = value;
+}
+
+function updateKelancaranScore() {
+    const value = document.getElementById('kelancaran').value;
+    document.getElementById('kelancaranScore').textContent = value;
+    document.getElementById('kelancaranManual').value = value;
+}
+
+function updateKelancaranRange() {
+    const value = document.getElementById('kelancaranManual').value;
+    document.getElementById('kelancaranScore').textContent = value;
+    document.getElementById('kelancaran').value = value;
+}
+
+function updateTahfidzScore() {
+    const value = document.getElementById('tahfidz').value;
+    document.getElementById('tahfidzScore').textContent = value;
+    document.getElementById('tahfidzManual').value = value;
+}
+
+function updateTahfidzRange() {
+    const value = document.getElementById('tahfidzManual').value;
+    document.getElementById('tahfidzScore').textContent = value;
+    document.getElementById('tahfidz').value = value;
+}
+
     </script>
 </body>
-</html>
+    </html>
