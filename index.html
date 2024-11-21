@@ -5,285 +5,337 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Penilaian Hafalan Al-Qur'an</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #4CAF50;
-            --hover-color: #45a049;
-            --border-color: #ddd;
-            --text-color: #333;
-            --light-bg: #f5f5f5;
-        }
+   <style> 
+:root {
+    /* Skala Responsif */
+    --scale-small: 0.8rem;
+    --scale-base: 1rem;
+    --scale-medium: 1.2rem;
+    --scale-large: 1.5rem;
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    /* Warna Modern & Aksesibel */
+    --color-primary: #3498db;
+    --color-secondary: #2ecc71;
+    --color-background: #f4f6f9;
+    --color-text: #2c3e50;
+    --color-border: #e0e4e8;
+    --color-white: #ffffff;
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--light-bg);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
+    /* Spasi Fleksibel */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
 
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
+    /* Transisi & Animasi */
+    --transition-speed: 0.3s;
+}
 
-        h2 {
-    color: blue;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-size: 1.8rem;
-    /* Tambahan animasi */
-    padding: 1rem;
-    background: linear-gradient(45deg, #27ae60, #2ecc71, #1abc9c, #16a085);
+/* Reset & Base */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px; /* Base font size */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Responsive Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+}
+
+/* Flexbox Grid System */
+.grid {
+    display: grid;
+    gap: var(--spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Responsive Typography */
+h1 { 
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+}
+
+h2 { 
+    font-size: 25px;
+    font-weight: 100px;
+    height:50px;
+    text-align:center;
+    padding:10px;
+    margin-top:50px;
+    margin-bottom:20px;
+background: linear-gradient(45deg, #27ae60, #2ecc71, #1abc9c, #16a085);
     background-size: 200%;
     border-radius: 10px;
     color: white;
     animation: background-animation 4s ease infinite;
 }
 
-/* Keyframes untuk animasi background */
-@keyframes background-animation {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+p {
+    font-size: clamp(0.9rem, 2vw, 1rem);
 }
 
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
+/* Advanced Form Styling */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #2c3e50;
-        }
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
 
-        input[type="text"],
-        input[type="number"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
+.form-input {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
 
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        input[type="date"]:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
+/* Scalable Input */
+input, 
+select {
+    flex: 1;
+    padding: calc(var(--spacing-xs) * 1.2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: var(--scale-base);
+    transition: all var(--transition-speed) ease;
+}
 
-        .score-container {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 8px;
-        }
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
 
-        .score-display {
-            min-width: 60px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border-radius: 4px;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
+/* Responsive Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 8px;
+    font-size: var(--scale-base);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all var(--transition-speed) ease;
+}
 
-        input[type="range"] {
-            flex: 1;
-            height: 8px;
-            -webkit-appearance: none;
-            background: #ddd;
-            border-radius: 4px;
-            outline: none;
-        }
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+}
 
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    border: none;
+}
 
-        .criteria {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
-            padding-left: 1rem;
-            border-left: 3px solid #e9ecef;
-        }
+/* Responsive Table */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
 
-        .attempt-warning {
-            color: #856404;
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 6px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: var(--spacing-md);
+}
 
-        button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
+th, td {
+    padding: var(--spacing-sm);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
 
-        button:hover {
-            background-color: var(--hover-color);
-            transform: translateY(-1px);
-        }
+/* Adaptive Media Queries */
+@media screen and (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
 
-        .result {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 8px;
-            display: none;
-            animation: slideIn 0.5s ease;
-        }
+    .form-input {
+        flex-direction: column;
+        align-items: stretch;
+    }
+:root {
+    /* Dark Mode Color Palette - More Sophisticated */
+    --color-dark-background: #121317;
+    --color-dark-surface: #1E2228;
+    --color-dark-elevated: #2A2F38;
+    --color-dark-text: #E4E6E9;
+    --color-dark-text-muted: #A0A6B1;
+    --color-dark-border: #3A4250;
+    --color-dark-primary: #4FC3F7;
+    --color-dark-secondary: #81C784;
+    --color-dark-accent: #FF6B6B;
 
-        .result h3 {
-            margin-bottom: 1rem;
-            color: #2c3e50;
-        }
+    /* Shadows and Depth */
+    --shadow-dark-subtle: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-dark-medium: 0 10px 20px rgba(0, 0, 0, 0.15);
+    --shadow-dark-strong: 0 15px 25px rgba(0, 0, 0, 0.2);
 
-        .result ul {
-            list-style: none;
-            margin-top: 0.5rem;
-        }
+    /* Transition */
+    --transition-speed: 0.3s;
+}
 
-        .result li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
-        }
+/* Dark Mode Base Styles */
+body.dark-mode {
+    background-color: var(--color-dark-background);
+    color: var(--color-dark-text);
+    line-height: 1.6;
+}
 
-        .grade-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-top: 0.5rem;
-        }
+/* Container Styling */
+.dark-mode .container {
+    background-color: var(--color-dark-surface);
+    border-radius: 12px;
+    box-shadow: var(--shadow-dark-subtle);
+    transition: all var(--transition-speed) ease;
+}
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
+/* Headings */
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3 {
+    color: var(--color-dark-text);
+    background: linear-gradient(45deg, var(--color-dark-primary), var(--color-dark-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+/* Form Elements */
+.dark-mode input,
+.dark-mode select {
+    background-color: var(--color-dark-elevated);
+    color: var(--color-dark-text);
+    border: 1px solid var(--color-dark-border);
+    border-radius: 8px;
+    transition: all var(--transition-speed) ease;
+}
 
-        @media print {
-            .no-print {
-                display: none;
-            }
-            .container {
-                box-shadow: none;
-            }
-        }
+.dark-mode input:focus,
+.dark-mode select:focus {
+    border-color: var(--color-dark-primary);
+    box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
+    outline: none;
+}
 
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
+/* Buttons */
+.dark-mode .btn-primary {
+    background-color: var(--color-dark-primary);
+    color: var(--color-dark-background);
+    box-shadow: var(--shadow-dark-subtle);
+    transition: all var(--transition-speed) ease;
+}
 
-        .history-table th,
-        .history-table td {
-            padding: 0.75rem;
-            border: 1px solid #dee2e6;
-            text-align: left;
-        }
+.dark-mode .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-dark-medium);
+}
 
-        .history-table th {
-            background-color: #f8f9fa;
-        }
+.dark-mode .btn-secondary {
+    background-color: var(--color-dark-secondary);
+    color: var(--color-dark-background);
+    box-shadow: var(--shadow-dark-subtle);
+}
 
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+.dark-mode .btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-dark-medium);
+}
 
-        .secondary-button {
-            background-color: #6c757d;
-        }
+/* Tables */
+.dark-mode table {
+    background-color: var(--color-dark-surface);
+    box-shadow: var(--shadow-dark-subtle);
+}
 
-        .export-button {
-            background-color: #28a745;
-        }
-.class-selection {
-            margin-bottom: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+.dark-mode th, 
+.dark-mode td {
+    border-bottom-color: var(--color-dark-border);
+    color: var(--color-dark-text);
+}
 
-        .class-selection select {
-            flex: 1;
-        }
+.dark-mode .history-table {
+    background-color: var(--color-dark-elevated);
+}
 
-        /* Style untuk tabel riwayat yang diperbarui */
-        .history-table td {
-            vertical-align: middle;
-        }
+/* Grade and Badge Styling */
+.dark-mode .grade-badge {
+    background-color: var(--color-dark-elevated);
+    color: var(--color-dark-text);
+    border-radius: 16px;
+    padding: 4px 8px;
+    font-weight: bold;
+    box-shadow: var(--shadow-dark-subtle);
+}
 
-        .class-badge {
-            background-color: #e9ecef;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            color: #495057;
-        }
+.dark-mode .class-badge {
+    background-color: var(--color-dark-primary);
+    color: var(--color-dark-background);
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+}
+
+/* Slider for Dark Mode Toggle */
+.dark-mode-slider {
+    background-color: var(--color-dark-border) !important;
+}
+
+.dark-mode-slider:before {
+    background-color: var(--color-dark-primary) !important;
+}
+
+/* Additional Elements */
+.dark-mode .result {
+    background-color: var(--color-dark-elevated) !important;
+    border: 1px solid var(--color-dark-border);
+    box-shadow: var(--shadow-dark-subtle);
+}
+
+/* Transitions for Smooth Experience */
+body.dark-mode, 
+.dark-mode .container, 
+.dark-mode input, 
+.dark-mode select, 
+.dark-mode .btn, 
+.dark-mode table {
+    transition: 
+        background-color var(--transition-speed) ease,
+        color var(--transition-speed) ease,
+        border-color var(--transition-speed) ease,
+        box-shadow var(--transition-speed) ease;
+}
+
     </style>
 </head>
 <body>
@@ -291,7 +343,6 @@
         <h2>Form Penilaian Hafalan Al-Qur'an</h2>
         <form id="quranForm">
             <div class="form-group">
-    <div class="form-group">
                 <label for="class">Kelas:</label>
                 <select id="class" required onchange="updateStudentList()">
                     <option value="" disabled selected>Pilih Kelas</option>
@@ -300,7 +351,6 @@
                     <option value="I A lil Banaat">I A lil Banaat</option>
                     <option value="I B lil Banaat">I B lil Banaat</option>
                     <option value="II lil Banaat">II lil Banaat</option>
-                  
                 </select>
             </div>
 
@@ -311,87 +361,126 @@
                 </select>
             </div>
 
-            
             <div class="form-group">
                 <label for="surah">Surah:</label>
                 <select id="surah" required>
-                    <option value="">Pilih Surah</option>
+                    <option value="" disabled selected>Pilih Surah</option>
                 </select>
             </div>
-            
+
             <div class="form-group">
-                <label for="ayatStart">Ayat ke:</label>
+                <label for="secondarySurah">Surah Tambahan (Opsional):</label>
+                <select id="secondarySurah" disabled>
+                    <option value="" disabled selected>Pilih Surah Tambahan</option>
+                </select>
+ <label for="multiSurahCheck">Setoran Multi Surah</label>
+                <input type="checkbox" id="multiSurahCheck">
+            </div>
+
+            <div class="form-group">
+<label for="detailCheck">Detail Tambahan</label>
+                <input type="checkbox" id="detailCheck">
+                <div id="additionalDetails" style="display: none;">
+                    <div class="form-group">
+                        <label for="juz">Juz:</label>
+                        <input type="number" id="juz" min="1" max="30" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="lembar">Lembar:</label>
+                        <input type="number" id="lembar" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="halaman">Halaman:</label>
+                        <input type="number" id="halaman" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="baris">Baris:</label>
+                        <input type="number" id="baris" disabled>
+                    </div>
+                </div>
+            
+
+            <div class="form-group">
+                <label for="ayatStart">Ayat Mulai:</label>
                 <input type="number" id="ayatStart" min="1" required>
             </div>
-            
+
             <div class="form-group">
-                <label for="ayatEnd">Sampai ayat:</label>
+                <label for="ayatEnd">Ayat Selesai:</label>
                 <input type="number" id="ayatEnd" min="1" required>
             </div>
-            
+
+            <div class="form-group">
+                <label for="tajwid">Tajwid:</label>
+                <div class="score-container">
+                    <input type="range" id="tajwid" min="0" max="100" value="0" oninput="updateScore('tajwid')">
+                    <input type="number" id="tajwidManual" min="0" max="100" value="0" oninput="updateScoreManual('tajwid')">
+                    <span class="score-display" id="tajwidScore">0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="makhraj">Makhraj:</label>
+                <div class="score-container">
+                    <input type="range" id="makhraj" min="0" max="100" value="0" oninput="updateScore('makhraj')">
+                    <input type="number" id="makhrajManual" min="0" max="100" value="0" oninput="updateScoreManual('makhraj')">
+                    <span class="score-display" id="makhrajScore">0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="kelancaran">Kelancaran:</label>
+                <div class="score-container">
+                    <input type="range" id="kelancaran" min="0" max="100" value="0" oninput="updateScore('kelancaran')">
+                    <input type="number" id="kelancaranManual" min="0" max="100" value="0" oninput="updateScoreManual('kelancaran')">
+                    <span class="score-display" id="kelancaranScore">0</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="tahfidz">Tahfidz:</label>
+                <div class="score-container">
+                    <input type="range" id="tahfidz" min="0" max="100" value="0" oninput="updateScore('tahfidz')">
+                    <input type="number" id="tahfidzManual" min="0" max="100" value="0" oninput="updateScoreManual('tahfidz')">
+                    <span class="score-display" id="tahfidzScore">0</span>
+                </div>
+
+            <div class="form-group">
+                <label for="attempt">Percobaan ke:</label>
+                <input type="number" id="attempt" min="1" max="3" value="1" required>
+                <div id="attemptWarning" class="attempt-warning" style="display: none; color: red;">
+                    Ini adalah percobaan terakhir. Harap perhatikan dengan seksama.
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="date">Tanggal:</label>
                 <input type="date" id="date" required>
             </div>
-            
-            
-            <div class="form-group">
-    <label>Tajwid (Hukum Bacaan)</label>
-    <div class="score-container">
-        <input type="range" id="tajwid" min="0" max="100" value="0" oninput="updateTajwidScore()">
-        <input type="number" id="tajwidManual" min="0" max="100" value="0" oninput="updateTajwidRange()">
-        <span class="score-display" id="tajwidScore">0</span>
-    </div>
-    <div class="criteria">Ketepatan dalam hukum tajwid</div>
-    
-<div class="form-group">
-    <label>Makhraj (Tempat Keluarnya Huruf)</label>
-    <div class="score-container">
-        <input type="range" id="makhraj" min="0" max="100" value="0" oninput="updateMakhrajScore()">
-        <input type="number" id="makhrajManual" min="0" max="100" value="0" oninput="updateMakhrajRange()">
-        <span class="score-display" id="makhrajScore">0</span>
-    </div>
-    <div class="criteria">Ketepatan dalam pengucapan huruf</div>
-    
-<div class="form-group">
-    <label>Kelancaran</label>
-    <div class="score-container">
-        <input type="range" id="kelancaran" min="0" max="100" value="0" oninput="updateKelancaranScore()">
-        <input type="number" id="kelancaranManual" min="0" max="100" value="0" oninput="updateKelancaranRange()">
-        <span class="score-display" id="kelancaranScore">0</span>
-    </div>
-    <div class="criteria">Kelancaran dalam membaca tanpa terbata-bata</div>
-    
-<div class="form-group">
-    <label>Tahfidz (Hafalan)</label>
-    <div class="score-container">
-        <input type="range" id="tahfidz" min="0" max="100" value="0" oninput="updateTahfidzScore()">
-        <input type="number" id="tahfidzManual" min="0" max="100" value="0" oninput="updateTahfidzRange()">
-        <span class="score-display" id="tahfidzScore">0</span>
-    </div>
-    <div class="criteria">Kemampuan menghafal dengan sempurna</div>
 
-<div class="form-group">
-    <label for="attempt">Percobaan ke-:</label>
-    <input type="number" id="attempt" min="1" max="3" value="1" required>
-</div>
-            
-            <div id="attemptWarning" class="attempt-warning">
-                Ini adalah percobaan terakhir. Harap perhatikan dengan seksama.
+            <div class="form-group action-buttons">
+                <button type="submit" class="btn btn-primary">Simpan Penilaian</button>
+               
+                <button type="button" onclick="exportToCSV()" class="btn btn-info">Ekspor CSV</button>
             </div>
-            
-            <button type="submit">Simpan Penilaian</button>
-        </form>
-        
-        <div id="result" class="result"></div>
+<button type="button" id="clearDataBtn" class="btn btn-danger mt-3">Hapus Semua Data</button>
 
-        <div class="action-buttons no-print">
-            <button onclick="printResult()" class="secondary-button">Cetak Hasil</button>
-            <button onclick="exportToCSV()" class="export-button">Export ke CSV</button>
-        </div>
-
-        <div id="history" style="margin-top: 2rem;">
+        <div id="result" class="result" style="display: none;"></div>
+        <div id="history">
             <h3>Riwayat Penilaian</h3>
+            <div class="filter-container">
+                <select id="classFilter">
+                    <option value="">Filter Kelas</option>
+                </select>
+                <select id="surahFilter">
+                    <option value="">Filter Surah</option>
+                </select>
+                <input type="date" id="startDateFilter">
+                <input type="date" id="endDateFilter">
+                
+                <button type="button" onclick="applyFilters()"class="btn btn-info">Terapkan Filter</button>
+                <button type="button" onclick="resetFilters()"class="btn btn-info">Reset</button>
+            </div>
             <table class="history-table">
                 <thead>
                     <tr>
@@ -407,12 +496,11 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.js"></script>
     <script>
-
         // Data struktur untuk kelas dan murid
         const classStudents = {
-            'I lil Baniyn': [
+                        'I lil Baniyn': [
     'Abdurrahman Al Ghozi Bin Alamsyah',
     'Afif Al Zakiy Bin Sunardi',
     'Ahmad Hafidz Bin Dedi Abdillah',
@@ -519,32 +607,11 @@
     'Syifa Fajria Al Aina Ramadhani',
     'Zaskia Novita Sari'
 ],
-            
         };
 
-        // Fungsi untuk mengupdate daftar santri berdasarkan kelas
-        function updateStudentList() {
-            const classSelect = document.getElementById('class');
-            const nameSelect = document.getElementById('name');
-            const selectedClass = classSelect.value;
-
-            // Reset nama santri
-            nameSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Santri</option>';
-            nameSelect.disabled = !selectedClass;
-
-            if (selectedClass) {
-                const students = classStudents[selectedClass];
-                students.forEach(student => {
-                    const option = document.createElement('option');
-                    option.value = student;
-                    option.textContent = student;
-                    nameSelect.appendChild(option);
-                });
-            }
-        }
-        // Surah list data
+        // Daftar Surah
         const surahList = [
-            "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah",
+                        "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah",
 "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus",
 "Hud", "Yusuf", "Ar-Ra'd", "Ibrahim", "Al-Hijr",
 "An-Nahl", "Al-Isra'", "Al-Kahf", "Maryam", "Ta-Ha",
@@ -567,52 +634,175 @@
 "Al-Qari'ah", "At-Takathur", "Al-Asr", "Al-Humazah", "Al-Fil",
 "Quraysh", "Al-Ma'un", "Al-Kawthar", "Al-Kafirun", "An-Nasr",
 "Al-Masad", "Al-Ikhlas", "Al-Falaq", "An-Nas"
-            // Add more surahs as needed
         ];
-        
 
-        // Populate surah dropdown
-        const surahSelect = document.getElementById('surah');
-        surahList.forEach((surah, index) => {
-            const option = document.createElement('option');
-            option.value = surah;
-            option.textContent = `${index + 1}. ${surah}`;
-            surahSelect.appendChild(option);
-        });
+        // Variabel global
+        let evaluations = JSON.parse(localStorage.getItem('quranEvaluations')) || [];
 
-        // Initialize local storage
-        const evaluations = JSON.parse(localStorage.getItem('quranEvaluations')) || [];
+        // Fungsi-fungsi Utama
+        function updateStudentList() {
+            const classSelect = document.getElementById('class');
+            const nameSelect = document.getElementById('name');
+            const selectedClass = classSelect.value;
 
-        // Update score displays
-        document.querySelectorAll('input[type="range"]').forEach(input => {
-            input.addEventListener('input', function() {
-                document.getElementById(this.id + 'Score').textContent = this.value;
-            });
-        });
+            nameSelect.innerHTML = '<option value="" disabled selected>Pilih Nama Santri</option>';
+            nameSelect.disabled = !selectedClass;
 
-        // Attempt warning
-        document.getElementById('attempt').addEventListener('change', function() {
-            const warning = document.getElementById('attemptWarning');
-            warning.style.display = this.value === '3' ? 'block' : 'none';
-        });
-
-        // Calculate grade
-        function calculateGrade(average) {
-            if (average >= 90) return 'Jayyid Jiddan (Jayyid Jiddan)';
-            if (average >= 80) return 'Jayyid (Jayyid)';
-            if (average >= 70) return 'Hasan (Hasan)';
-            if (average >= 60) return 'Perlu Perbaikan (Perlu Perbaikan)';
-            return 'Ditolak (Ditolak)';
+            if (selectedClass) {
+                const students = classStudents[selectedClass];
+                students.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student;
+                    option.textContent = student;
+                    nameSelect.appendChild(option);
+                });
+            }
         }
 
-        // Form submission
-        document.getElementById('quranForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function populateSurahDropdowns() {
+            const surahSelects = ['surah', 'secondarySurah', 'surahFilter'];
+            surahSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                select.innerHTML = '<option value="" disabled selected>Pilih Surah</option>';
+                surahList.forEach((surah, index) => {
+                    const option = document.createElement('option');
+                    option.value = surah;
+                    option.textContent = `${index + 1}. ${surah}`;
+                    select.appendChild(option);
+                });
+            });
+        }
+
+        function updateScore(type) {
+            const rangeInput = document.getElementById(type);
+            const scoreDisplay = document.getElementById(`${type}Score`);
+            const manualInput = document.getElementById(`${type}Manual`);
             
+            scoreDisplay.textContent = rangeInput.value;
+            manualInput.value = rangeInput.value;
+        }
+
+        function updateScoreManual(type) {
+            const rangeInput = document.getElementById(type);
+            const scoreDisplay = document.getElementById(`${type}Score`);
+            const manualInput = document.getElementById(`${type}Manual`);
+            
+            rangeInput.value = manualInput.value;
+            scoreDisplay.textContent = manualInput.value;
+        }
+        
+function clearFormData() {
+    localStorage.removeItem('formDraft');
+    localStorage.removeItem('quranEvaluations');
+    
+    Toastify({
+        text: "Semua data telah dihapus",
+        duration: 3000,
+        backgroundColor: "#28a745"
+    }).showToast();
+
+    // Reset form dan history
+    document.getElementById('quranForm').reset();
+    evaluations = [];
+    updateHistory();
+}
+
+        // Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const clearDataBtn = document.getElementById('clearDataBtn');
+    
+    if (clearDataBtn) {
+        clearDataBtn.addEventListener('click', function() {
+            // Tambahkan konfirmasi sebelum menghapus data
+            const confirmClear = confirm('Apakah Anda yakin ingin menghapus SEMUA data? Tindakan ini tidak dapat dibatalkan.');
+            
+            if (confirmClear) {
+                clearFormData();
+            }
+        });
+    }
+});
+
+function clearFormData() {
+    // Hapus data dari localStorage
+    localStorage.removeItem('formDraft');
+    localStorage.removeItem('quranEvaluations');
+    
+    // Tampilkan notifikasi menggunakan Toastify
+    Toastify({
+        text: "Semua data telah dihapus",
+        duration: 3000,
+        backgroundColor: "#28a745"
+    }).showToast();
+
+    // Reset form
+    document.getElementById('quranForm').reset();
+    
+    // Reset variabel evaluations
+    evaluations = [];
+    
+    // Reset dropdown dan input tambahan
+    document.getElementById('secondarySurah').disabled = true;
+    document.getElementById('multiSurahCheck').checked = false;
+    document.getElementById('detailCheck').checked = false;
+    document.getElementById('additionalDetails').style.display = 'none';
+    
+    // Sembunyikan hasil
+    const resultDiv = document.getElementById('result');
+    if (resultDiv) {
+        resultDiv.style.display = 'none';
+    }
+    
+    // Update history
+    updateHistory();
+}
+
+        document.addEventListener('DOMContentLoaded', () => {
+            populateSurahDropdowns();
+            updateHistory();
+            populateFilters();
+
+            document.getElementById('detailCheck').addEventListener('change', function() {
+                const additionalDetails = document.getElementById('additionalDetails');
+                const inputs = additionalDetails.querySelectorAll('input');
+                
+                additionalDetails.style.display = this.checked ? 'block' : 'none';
+                inputs.forEach(input => input.disabled = !this.checked);
+            });
+
+            document.getElementById('multiSurahCheck').addEventListener('change', function() {
+                const secondarySurah = document.getElementById('secondarySurah');
+                secondarySurah.disabled = !this.checked;
+                if (!this.checked) secondarySurah.value = '';
+            });
+
+            document.getElementById('attempt').addEventListener('change', function() {
+                const warning = document.getElementById('attemptWarning');
+                warning.style.display = this.value === '3' ? 'block' : 'none';
+            });
+
+            document.getElementById('quranForm').addEventListener('submit', submitForm);
+        });
+
+        function submitForm(e) {
+            e.preventDefault();
+const requiredFields = ['class', 'name', 'surah', 'ayatStart', 'ayatEnd', 'date'];
+    for (let field of requiredFields) {
+        const element = document.getElementById(field);
+        if (!element.value) {
+            Toastify({
+                text: `Mohon isi ${field}`,
+                duration: 3000,
+                backgroundColor: "#dc3545"
+            }).showToast();
+            return;
+        }
+    }
             const formData = {
                 class: document.getElementById('class').value,
                 name: document.getElementById('name').value,
                 surah: document.getElementById('surah').value,
+                secondarySurah: document.getElementById('multiSurahCheck').checked ? document.getElementById('secondarySurah').value : '',
                 ayatStart: document.getElementById('ayatStart').value,
                 ayatEnd: document.getElementById('ayatEnd').value,
                 date: document.getElementById('date').value,
@@ -620,12 +810,16 @@
                 makhraj: parseInt(document.getElementById('makhraj').value),
                 kelancaran: parseInt(document.getElementById('kelancaran').value),
                 tahfidz: parseInt(document.getElementById('tahfidz').value),
-                attempt: document.getElementById('attempt').value
+                attempt: document.getElementById('attempt').value,
+                juz: document.getElementById('detailCheck').checked ? document.getElementById('juz').value : '',
+                lembar: document.getElementById('detailCheck').checked ? document.getElementById('lembar').value : '',
+                halaman: document.getElementById('detailCheck').checked ? document.getElementById('halaman').value : '',
+                baris: document.getElementById('detailCheck').checked ? document.getElementById('baris').value : ''
             };
 
             const average = (formData.tajwid + formData.makhraj + formData.kelancaran + formData.tahfidz) / 4;
             const grade = calculateGrade(average);
-
+        
             evaluations.push({
                 ...formData,
                 average,
@@ -644,7 +838,7 @@
                 position: "right",
                 backgroundColor: "var(--primary-color)"
             }).showToast();
-        });
+        };
 
         function displayResult(data, average, grade) {
             const resultDiv = document.getElementById('result');
@@ -664,16 +858,22 @@
                     <p><strong>Nilai Rata-rata:</strong> ${average.toFixed(1)}</p>
                     <p><strong>Grade:</strong> <span class="grade-badge" style="background-color: ${getGradeColor(grade)}">${grade}</span></p>
                     <h4>Detail Nilai:</h4>
-                    <ul>
+                    
                         <li><strong>Tajwid:</strong> ${data.tajwid}</li>
                         <li><strong>Makhraj:</strong> ${data.makhraj}</li>
                         <li><strong>Kelancaran:</strong> ${data.kelancaran}</li>
                         <li><strong>Tahfidz:</strong> ${data.tahfidz}</li>
-                    </ul>
+                    
                 </div>
             `;
         }
-
+function calculateGrade(average) {
+            if (average >= 90) return 'Jayyid Jiddan (Jayyid Jiddan)';
+            if (average >= 80) return 'Jayyid (Jayyid)';
+            if (average >= 70) return 'Hasan (Hasan)';
+            if (average >= 60) return 'Perlu Perbaikan (Perlu Perbaikan)';
+            return 'Ditolak (Ditolak)';
+        }
         function getGradeColor(grade) {
             const colors = {
                 'Jayyid Jiddan (Jayyid Jiddan)':'#28a745',
@@ -703,7 +903,7 @@
                         ${eval.name}
                         <br>
                         <span class="class-badge">${eval.class}</span>
-                    </td>
+                    </td>                    
                     <td>${eval.surah}</td>
                     <td>${eval.average.toFixed(1)}</td>
                     <td><span class="grade-badge" style="background-color: ${getGradeColor(eval.grade)}">${eval.grade}</span></td>
@@ -715,27 +915,41 @@
             window.print();
         }
 
-        function exportToCSV() {
-            const headers = ['Tanggal', 'Kelas', 'Nama', 'Surah', 'Ayat Mulai', 'Ayat Akhir', 'Tajwid', 'Makhraj', 'Kelancaran', 'Tahfidz', 'Rata-rata', 'Grade'];
-            const csvRows = [headers];
+       function exportToCSV() {
+    const headers = [
+        'Tanggal', 'Kelas', 'Nama', 
+        'Surah Utama', 'Surah Tambahan', 
+        'Ayat Mulai', 'Ayat Akhir', 
+        'Juz', 'Lembar', 'Halaman', 'Baris',
+        'Tajwid', 'Makhraj', 'Kelancaran', 'Tahfidz', 
+        'Rata-rata', 'Grade', 'Percobaan'
+    ];
+    
+    const csvRows = [headers];
 
-            evaluations.forEach(eval => {
-                const row = [
-                    eval.date,
-                    eval.class,
-                    eval.name,
-                    eval.surah,
-                    eval.ayatStart,
-                    eval.ayatEnd,
-                    eval.tajwid,
-                    eval.makhraj,
-                    eval.kelancaran,
-                    eval.tahfidz,
-                    eval.average.toFixed(1),
-                    eval.grade
-                ];
-                csvRows.push(row);
-            });
+    evaluations.forEach(eval => {
+        const row = [
+            eval.date,
+            eval.class,
+            eval.name,
+            eval.surah,
+            eval.secondarySurah || '',
+            eval.ayatStart,
+            eval.ayatEnd,
+            eval.juz || '',
+            eval.lembar || '',
+            eval.halaman || '',
+            eval.baris || '',
+            eval.tajwid,
+            eval.makhraj,
+            eval.kelancaran,
+            eval.tahfidz,
+            eval.average.toFixed(1),
+            eval.grade,
+            eval.attempt
+        ];
+        csvRows.push(row);
+});
 
             const csvContent = csvRows.map(row => row.join(',')).join('\n');
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -873,6 +1087,210 @@ function updateTahfidzRange() {
     document.getElementById('tahfidz').value = value;
 }
 
+function populateFilters() {
+    const classFilter = document.getElementById('classFilter');
+    const surahFilter = document.getElementById('surahFilter');
+    
+    // Populate class filter
+    Object.keys(classStudents).forEach(className => {
+        const option = document.createElement('option');
+        option.value = className;
+        option.textContent = className;
+        classFilter.appendChild(option);
+    });
+    
+    // Populate surah filter
+    surahList.forEach((surah, index) => {
+        const option = document.createElement('option');
+        option.value = surah;
+        option.textContent = `${index + 1}. ${surah}`;
+        surahFilter.appendChild(option);
+    });
+}
+
+// Apply filters to history
+function applyFilters() {
+    const classFilter = document.getElementById('classFilter').value;
+    const surahFilter = document.getElementById('surahFilter').value;
+    const startDate = document.getElementById('startDateFilter').value;
+    const endDate = document.getElementById('endDateFilter').value;
+
+    const filteredEvaluations = evaluations.filter(eval => {
+        const evalDate = new Date(eval.date);
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        const matchClass = !classFilter || eval.class === classFilter;
+        const matchSurah = !surahFilter || 
+            eval.surah === surahFilter || 
+            eval.secondarySurah === surahFilter;
+        const matchDateStart = !start || evalDate >= start;
+        const matchDateEnd = !end || evalDate <= end;
+
+        return matchClass && matchSurah && matchDateStart && matchDateEnd;
+    });
+
+    displayFilteredHistory(filteredEvaluations);
+}
+
+function resetFilters() {
+    document.getElementById('classFilter').value = '';
+    document.getElementById('surahFilter').value = '';
+    document.getElementById('startDateFilter').value = '';
+    document.getElementById('endDateFilter').value = '';
+    
+    updateHistory(); // Kembali ke tampilan awal
+}
+
+function displayFilteredHistory(filteredData) {
+    const tbody = document.getElementById('historyTableBody');
+    tbody.innerHTML = '';
+
+    filteredData.forEach(eval => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${new Date(eval.date).toLocaleDateString('id-ID')}</td>
+            <td>
+                ${eval.name}
+                <br>
+                <span class="class-badge">${eval.class}</span>
+            </td>
+            <td>${eval.surah}${eval.secondarySurah ? ` & ${eval.secondarySurah}` : ''}</td>
+            <td>${eval.average.toFixed(1)}</td>
+            <td><span class="grade-badge" style="background-color: ${getGradeColor(eval.grade)}">${eval.grade}</span></td>
+        `;
+    });
+}
+document.addEventListener('DOMContentLoaded', () => {
+    // Fungsi untuk membuat toggle dark mode
+    function createDarkModeToggle() {
+        const toggleContainer = document.createElement('div');
+        toggleContainer.classList.add('dark-mode-toggle-container');
+        toggleContainer.innerHTML = `
+            <style>
+                .dark-mode-toggle-container {
+                    position: fixed;
+                    top: 20px;
+                    right: 40px;
+                    z-index: 1000;
+                }
+                
+                .dark-mode-switch {
+                    position: relative;
+                    display: inline-block;
+                    width: 60px;
+                    height: 34px;
+                }
+                
+                .dark-mode-switch input {
+                    opacity: 0;
+                    width: 0;
+                    height: 0;
+                }
+                
+                .dark-mode-slider {
+                    position: absolute;
+                    cursor: pointer;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: #ccc;
+                    transition: .4s;
+                    border-radius: 34px;
+                }
+                
+                .dark-mode-slider:before {
+                    position: absolute;
+                    content: "";
+                    height: 26px;
+                    width: 26px;
+                    left: 4px;
+                    bottom: 4px;
+                    background-color: white;
+                    transition: .4s;
+                    border-radius: 50%;
+                }
+                
+                input:checked + .dark-mode-slider {
+                    background-color: #2196F3;
+                }
+                
+                input:checked + .dark-mode-slider:before {
+                    transform: translateX(26px);
+                }
+                
+                /* Ikon matahari dan bulan */
+                .dark-mode-switch .icons {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 5px;
+                    z-index: 1;
+                }
+                
+                .dark-mode-switch .icons span {
+                    font-size: 16px;
+                }
+            </style>
+            <label class="dark-mode-switch">
+                <input type="checkbox" id="darkModeToggle">
+                <span class="dark-mode-slider"></span>
+                <div class="icons">
+                    <span>⚡</span>
+                    <span>🌙</span>
+                </div>
+            </label>
+        `;
+        
+        document.body.appendChild(toggleContainer);
+        
+        return toggleContainer.querySelector('#darkModeToggle');
+    }
+
+    // Buat toggle dark mode
+    const darkModeToggle = createDarkModeToggle();
+
+    // Fungsi untuk mengaktifkan/menonaktifkan dark mode
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        
+        // Simpan preferensi di localStorage
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Tambahkan event listener ke toggle
+    darkModeToggle.addEventListener('change', toggleDarkMode);
+
+    // Periksa preferensi dark mode saat halaman dimuat
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.checked = true;
+    }
+
+    // Tambahan: Deteksi preferensi sistem pengguna
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    function handleSystemDarkMode(e) {
+        if (e.matches && !localStorage.getItem('darkMode')) {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        } else if (!e.matches && !localStorage.getItem('darkMode')) {
+            document.body.classList.remove('dark-mode');
+            darkModeToggle.checked = false;
+        }
+    }
+
+    // Tambahkan listener untuk preferensi sistem
+    prefersDarkScheme.addListener(handleSystemDarkMode);
+    
+    // Panggil sekali saat pertama kali dimuat
+    handleSystemDarkMode(prefersDarkScheme);
+});
     </script>
 </body>
     </html>
